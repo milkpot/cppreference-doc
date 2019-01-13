@@ -41,15 +41,15 @@ def rearrange_archive(root):
     # rearrange the archive. {root} here is output/reference
 
     # before
-    # {root}/en.cppreference.com/w/ : html
-    # {root}/en.cppreference.com/mwiki/ : data
-    # {root}/en.cppreference.com/ : data
+    # {root}/ja.cppreference.com/w/ : html
+    # {root}/ja.cppreference.com/mwiki/ : data
+    # {root}/ja.cppreference.com/ : data
     # ... (other languages)
     # {root}/upload.cppreference.com/mwiki/ : data
 
     # after
     # {root}/common/ : all common data
-    # {root}/en/ : html for en
+    # {root}/ja/ : html for ja
     # ... (other languages)
 
     data_path = os.path.join(root, 'common')
@@ -57,7 +57,7 @@ def rearrange_archive(root):
     shutil.move(os.path.join(root, 'upload.cppreference.com/mwiki'), data_path)
     shutil.rmtree(os.path.join(root, 'upload.cppreference.com'))
 
-    for lang in ["en"]:
+    for lang in ["ja"]:
         path = os.path.join(root, lang + ".cppreference.com/")
         src_html_path = path + "w/"
         src_data_path = path + "mwiki/"
@@ -184,7 +184,7 @@ def is_ranges_placeholder(target):
 
 def transform_ranges_placeholder(target, file, root):
     # Placeholder link replacement is implemented in the MediaWiki site JS at
-    # https://en.cppreference.com/w/MediaWiki:Common.js
+    # https://ja.cppreference.com/w/MediaWiki:Common.js
 
     ranges = 'cpp/experimental/ranges' in file
     repl = (r'\1/cpp/experimental/ranges/\2' if ranges else r'\1/cpp/\2')
@@ -346,7 +346,7 @@ def remove_unused_external(html):
 
 
 def preprocess_html_file(root, fn, rename_map):
-    parser = etree.HTMLParser()
+    parser = etree.HTMLParser(encoding='utf-8')
     html = etree.parse(fn, parser)
     output = io.StringIO()
 

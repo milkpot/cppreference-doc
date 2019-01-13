@@ -28,22 +28,22 @@ qhelpgenerator = qhelpgenerator
 
 #Version
 
-VERSION=20181028
+VERSION=20190112
 
 #STANDARD RULES
 
 all: doc_devhelp doc_qch doc_doxygen
 
 DISTFILES=	\
-		commands/				\
-		gadgets/				\
-		headers/				\
-		index_transform/				\
-		images/					\
-		index_transform/		\
-		reference/				\
-		skins/					\
-		tests/					\
+		commands				\
+		gadgets				\
+		headers				\
+		index_transform				\
+		images					\
+		index_transform		\
+		reference				\
+		skins					\
+		tests					\
 		build_link_map.py		\
 		ddg_parse_html.py		\
 		devhelp2qch.py			\
@@ -98,18 +98,18 @@ install: all
 		-exec install -DT -m 644 '{}' "$(DESTDIR)$(docdir)/html/{}" \; ; \
 	popd > /dev/null
 
-	install -DT -m 644 "output/cppreference-doc-en-c.devhelp2" \
-		"$(DESTDIR)$(bookdir)/cppreference-doc-en-c/cppreference-doc-en-c.devhelp2"
-	install -DT -m 644 "output/cppreference-doc-en-cpp.devhelp2" \
-		"$(DESTDIR)$(bookdir)/cppreference-doc-en-cpp/cppreference-doc-en-cpp.devhelp2"
+	install -DT -m 644 "output/cppreference-doc-ja-c.devhelp2" \
+		"$(DESTDIR)$(bookdir)/cppreference-doc-ja-c/cppreference-doc-ja-c.devhelp2"
+	install -DT -m 644 "output/cppreference-doc-ja-cpp.devhelp2" \
+		"$(DESTDIR)$(bookdir)/cppreference-doc-ja-cpp/cppreference-doc-ja-cpp.devhelp2"
 	install -DT -m 644 "output/cppreference-doxygen-local.tag.xml" \
 		"$(DESTDIR)$(bookdir)/cppreference-doxygen-local.tag.xml"
 	install -DT -m 644 "output/cppreference-doxygen-web.tag.xml" \
 		"$(DESTDIR)$(bookdir)/cppreference-doxygen-web.tag.xml"
 
 	# install the .qch (Qt Help) documentation
-	install -DT -m 644 "output/cppreference-doc-en-cpp.qch" \
-		"$(DESTDIR)$(docdir)/qch/cppreference-doc-en-cpp.qch"
+	install -DT -m 644 "output/cppreference-doc-ja-cpp.qch" \
+		"$(DESTDIR)$(docdir)/qch/cppreference-doc-ja-cpp.qch"
 
 uninstall:
 	rm -rf "$(DESTDIR)$(docdir)"
@@ -136,16 +136,16 @@ release: all
 
 	# zip qch
 	pushd "output"; \
-	tar c$(TAR_OPTION)f "../release/qch-book-$(VERSION).tar.$(TAR_FORMAT)" "cppreference-doc-en-cpp.qch"; \
-	zip -qr "../release/qch-book-$(VERSION).zip" "cppreference-doc-en-cpp.qch"; \
+	tar c$(TAR_OPTION)f "../release/qch-book-$(VERSION).tar.$(TAR_FORMAT)" "cppreference-doc-ja-cpp.qch"; \
+	zip -qr "../release/qch-book-$(VERSION).zip" "cppreference-doc-ja-cpp.qch"; \
 	popd
 
 #WORKER RULES
 doc_html: output/reference
 
-doc_devhelp: output/cppreference-doc-en-c.devhelp2 output/cppreference-doc-en-cpp.devhelp2
+doc_devhelp: output/cppreference-doc-ja-c.devhelp2 output/cppreference-doc-ja-cpp.devhelp2
 
-doc_qch: output/cppreference-doc-en-cpp.qch
+doc_qch: output/cppreference-doc-ja-cpp.qch
 
 doc_doxygen: output/cppreference-doxygen-web.tag.xml output/cppreference-doxygen-local.tag.xml
 
@@ -154,37 +154,37 @@ output/link-map.xml: output/reference
 	./build_link_map.py
 
 #build the .devhelp2 index
-output/cppreference-doc-en-c.devhelp2: 		\
+output/cppreference-doc-ja-c.devhelp2: 		\
 		output/reference 		\
 		output/link-map.xml
 	./index2devhelp.py $(docdir)/html index-chapters-c.xml  \
-		"C Standard Library reference" "cppreference-doc-en-c" "c" \
+		"C Standard Library reference" "cppreference-doc-ja-c" "c" \
 		index-functions-c.xml "output/devhelp-index-c.xml"
 	./fix_devhelp-links.py "output/devhelp-index-c.xml"  \
-		"output/cppreference-doc-en-c.devhelp2"
+		"output/cppreference-doc-ja-c.devhelp2"
 
-output/cppreference-doc-en-cpp.devhelp2:	\
+output/cppreference-doc-ja-cpp.devhelp2:	\
 		output/reference 		\
 		output/link-map.xml
 	./index2devhelp.py $(docdir)/html index-chapters-cpp.xml  \
-		"C++ Standard Library reference" "cppreference-doc-en-cpp" "cpp" \
+		"C++ Standard Library reference" "cppreference-doc-ja-cpp" "cpp" \
 		index-functions-cpp.xml "output/devhelp-index-cpp.xml"
 	./fix_devhelp-links.py "output/devhelp-index-cpp.xml" \
-		"output/cppreference-doc-en-cpp.devhelp2"
+		"output/cppreference-doc-ja-cpp.devhelp2"
 
 #build the .qch (QT help) file
-output/cppreference-doc-en-cpp.qch: output/qch-help-project-cpp.xml
+output/cppreference-doc-ja-cpp.qch: output/qch-help-project-cpp.xml
 	#qhelpgenerator only works if the project file is in the same directory as the documentation
-	cp "output/qch-help-project-cpp.xml" "output/reference_cssless/qch.xml"
+	cp "output/qch-help-project-cpp.xml" "output/reference_cssless/qch.qhp"
 
 	pushd "output/reference_cssless" > /dev/null; \
-	$(qhelpgenerator) "qch.xml" -o "../cppreference-doc-en-cpp.qch"; \
+	$(qhelpgenerator) "qch.qhp" -o "../cppreference-doc-ja-cpp.qch"; \
 	popd > /dev/null
 
-	rm -f "output/reference_cssless/qch.xml"
+	rm -f "output/reference_cssless/qch.qhp"
 
 output/qch-help-project-cpp.xml: \
-		output/cppreference-doc-en-cpp.devhelp2 \
+		output/cppreference-doc-ja-cpp.devhelp2 \
 		output/reference_cssless
 	#build the file list
 	echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?><files>" > "output/qch-files.xml"
@@ -197,7 +197,7 @@ output/qch-help-project-cpp.xml: \
 	echo "</files>" >> "output/qch-files.xml"
 
 	#create the project (copies the file list)
-	./devhelp2qch.py --src=output/cppreference-doc-en-cpp.devhelp2 \
+	./devhelp2qch.py --src=output/cppreference-doc-ja-cpp.devhelp2 \
 		--dst=output/qch-help-project-cpp.xml \
 		--virtual_folder=cpp --file_list=output/qch-files.xml
 
@@ -237,7 +237,7 @@ indexes:
 	./index2autolinker.py index-functions-c.xml output/indexes/autolink-c
 	./index2autolinker.py index-functions-cpp.xml output/indexes/autolink-cpp
 
-#redownloads the source documentation directly from en.cppreference.com
+#redownloads the source documentation directly from ja.cppreference.com
 source:
 	rm -rf "reference"
 	mkdir "reference"
@@ -246,15 +246,22 @@ source:
 	regex=".*index\\.php.*|.*/Special:.*|.*/Talk:.*" \
 	regex+="|.*/Help:.*|.*/File:.*|.*/Cppreference:.*" \
 	regex+="|.*/WhatLinksHere:.*|.*/Template:.*|.*/Category:.*" \
-	regex+="|.*action=.*|.*printable=.*|.*en.cppreference.com/book.*" ; \
+	regex+="|.*/特別:.*|.*/%E7%89%B9%E5%88%A5:.*" \
+	regex+="|.*/トーク:.*|.*/%E3%83%88%E3%83%BC%E3%82%AF:.*" \
+	regex+="|.*/ヘルプ:.*|.*/%E3%83%98%E3%83%AB%E3%83%97:.*" \
+	regex+="|.*/ファイル:.*|.*/%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB:.*" \
+	regex+="|.*/リンク元:.*|.*/%E3%83%AA%E3%83%B3%E3%82%AF%E5%85%83:.*" \
+	regex+="|.*/テンプレート:.*|.*/%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88:.*" \
+	regex+="|.*/カテゴリ:.*|.*/%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA:.*" \
+	regex+="|.*action=.*|.*printable=.*|.*ja.cppreference.com/book.*" ; \
 	echo $$regex ; \
 	wget --adjust-extension --page-requisites --convert-links \
 	  --force-directories --recursive --level=15 \
-	  --span-hosts --domains=en.cppreference.com,upload.cppreference.com \
+	  --span-hosts --domains=ja.cppreference.com,upload.cppreference.com \
 	  --reject-regex $$regex \
 	  --timeout=5 --tries=50 --no-verbose \
 	  --retry-connrefused --waitretry=10 --read-timeout=20 \
-	  http://en.cppreference.com/w/ ; \
+	  https://ja.cppreference.com/w/ ; \
 	popd > /dev/null
 
-	./export.py --url=http://en.cppreference.com/mwiki reference/cppreference-export-ns0,4,8,10.xml 0 4 8 10
+	./export.py --url=https://ja.cppreference.com/mwiki reference/cppreference-export-ns0,4,8,10.xml 0 4 8 10

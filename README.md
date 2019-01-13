@@ -1,51 +1,27 @@
-Information
------------
+情報
+----
 
-This is source package for Cppreference C++ standard library reference
-documentation available at <http://en.cppreference.com>.
+これは <https://ja.cppreference.com> で運営されている C++ 標準ライブラリのリファレンスドキュメント Cppreference のためのソースパッケージです。 <https://github.com/p12tic/cppreference-doc> でメンテナンスされている英語版からフォークし、日本語版のために必要な変更を加えています。
 
-If there is no 'reference/' subdirectory in this package, the actual
-documentation is not present here and must be obtained separately in order to
-build the binary package. This can be done in two ways:
+このパッケージにサブディレクトリ reference/ が存在しない場合、実際のドキュメントはここには存在せず、バイナリパッケージをビルドするためにはそれを別個に取得しなければなりません。 これには以下の2つの方法があります。
 
- 1) Downloading a prepared archive from
- <http://en.cppreference.com/w/Cppreference:Archives>. This method is preferred.
+ 1) 準備済みのアーカイブを <https://ja.cppreference.com/w/Cppreference:Archives> からダウンロードする。 この方法が推奨されます。
 
- 2) Running `make source` which will pull the documentation directly from the
- website page-by-page. You should not normally use this method. The download
- script is updated to take into account any changes of the website only when
- there's new release at <http://en.cppreference.com/w/Cppreference:Archives>.
- If the layout of the website has changed since the last release, the download
- script might not work. Also, it puts unnecessary load on the servers. Please do
- not use this method unless you know what you are doing.
+ 2) `make source` を実行する。 これはドキュメントをページ単位で直接ウェブサイトから引っ張ります。 通常この方法を使用するべきではありません。 ダウンロードスクリプトは <https://ja.cppreference.com/w/Cppreference:Archives> に新しいリリースがあるときにのみウェブサイトの変更に対応するために更新されます。 最後のリリース以降にウェブサイトのレイアウトが変更されている場合、ダウンロードスクリプトは動作しないかもしれません。 また、これはサーバに余計な負荷をかけます。 自分が何をしようとしているのか解っていないのであれば、この方法は使用しないでください。
 
-Note, that abovementioned documentation is still a raw copy of the website and
-needs to be transformed in order to be suitable for local viewing. Three
-documentation formats are currently supported:
+上記のドキュメントはウェブサイトの生のコピーであり、ローカルでの閲覧に適した形にするためには変換が必要です。 現在のところ3種類のドキュメント形式がサポートされています。
 
- 1) Plain html documentation. Can be generated using `make doc_html`. The
- result of the transformation will be placed at the 'output/reference'
- subdirectory.
+ 1) プレーンな HTML ドキュメント。 `make doc_html` で生成できます。 変換の結果はサブディレクトリ output/reference に配置されます。
 
- 2) Devhelp documentation format. Can be generated using `make doc_devhelp`.
- `make install` installs the documentation into proper locations.
+ 2) Devhelp 形式。 `make doc_devhelp` で生成できます。 `make install` でドキュメントが適切な位置にインストールされます。
 
- 3) QT Help documentation format (.qch). Can be generated using `make doc_qch`.
- `make install` installs the documentation into proper locations.
+ 3) Qt ヘルプ形式 (.qch)。 `make doc_qch` で生成できます。 `make install` でドキュメントが適切な位置にインストールされます。
 
-Simply running `make all` will generate documentation in all three formats.
+単純に `make all` を実行すると、3種類すべての形式のドキュメントが生成されます。
 
-Running `make release` will generate the release archives which are uploaded
-to <http://en.cppreference.com/w/Cppreference:Archives>.
+`make release` を実行すると、 <https://ja.cppreference.com/w/Cppreference:Archives> にアップロードされるリリースアーカイブが生成されます。
 
-Dependencies
-------------
-
-The package depends on 'wget' (>=1.15), 'python3', 'python3-lxml',
-and 'qhelpgenerator' for the generation of the documentation.
-
-See also
+依存関係
 --------
 
-Debian packaging information for this package is maintained at
-<https://github.com/p12tic/cppreference-doc_debian>
+このパッケージはドキュメント生成のために wget (1.15以上)、 python3、 python3-lxml、および qhelpgenerator に依存しています。
