@@ -256,7 +256,7 @@ source:
 	regex+="|.*action=.*|.*printable=.*|.*ja.cppreference.com/book.*" ; \
 	echo $$regex ; \
 	wget --adjust-extension --page-requisites --convert-links \
-	  --force-directories --recursive --level=15 \
+	  --force-directories --recursive --level=15 -e robots=off \
 	  --span-hosts --domains=ja.cppreference.com,upload.cppreference.com \
 	  --reject-regex $$regex \
 	  --timeout=5 --tries=50 --no-verbose \
